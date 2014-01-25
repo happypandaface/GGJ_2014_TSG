@@ -6,26 +6,25 @@ public class Guy : MonoBehaviour, ItemUser {
 	public bool isGrounded;	
 	public bool hasFlower;
 	public List<string> itemKeys = new List<string>();
-	public List<UseItem> itemTrans = new List<UseItem>();
-	public UseItem weapon;
+	public List<UsedItem> itemTrans = new List<UsedItem>();
+	public UsedItem weapon;
 
 	private float maxSpeed = 4;
 	private List<string> itemsHeld = new List<string>();
 	private Transform currentItem;
-	private Dictionary<string, UseItem> itemsDict;
+	private Dictionary<string, UsedItem> itemsDict;
 
 	int groundedCount = 0;
 
 	// Use this for initialization
 	void Start () {
-		itemsDict = new Dictionary<string, UseItem>();
+		itemsDict = new Dictionary<string, UsedItem>();
 		for (int i = 0; i < itemKeys.Count && i < itemTrans.Count; ++i)
 		{
 			itemsDict.Add (itemKeys[i], itemTrans[i]);
 		}
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (Input.GetKey(KeyCode.RightArrow))
 		{
@@ -35,14 +34,13 @@ public class Guy : MonoBehaviour, ItemUser {
 		}else if (Input.GetKey(KeyCode.LeftArrow))
 		{
 			rigidbody2D.AddForce(new Vector2(-70, 0));
-			if (rigidbody2D.velocity.x < -maxSpeed)
 				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
 		}
 		if (HasItem("weapon") && Input.GetKeyDown(KeyCode.Space))
 		{
-			UseItem item = itemsDict["weapon"];
+			UsedItem item = itemsDict["weapon"];
 			//itemsDict.TryGetValue("weapon", out item);
-			UseItem usedItem = (UseItem)Instantiate(item, transform.position, Quaternion.identity);
+			UsedItem usedItem = (UsedItem)Instantiate(item, transform.position, Quaternion.identity);
 			usedItem.SetItemUser(this);
 		}
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
