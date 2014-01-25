@@ -63,12 +63,9 @@ public class Guy : MonoBehaviour, ItemUser {
 		}
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
-<<<<<<< HEAD
+
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
-=======
-			//<<<<<<< HEAD
-			//rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
->>>>>>> 95474bf526a84ff3d14b38c7ade37f8cba49d829
+
 			print ("sdf");
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 8);
 
