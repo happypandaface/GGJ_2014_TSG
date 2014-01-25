@@ -67,7 +67,6 @@ public class Guy : MonoBehaviour, ItemUser {
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
 
 			print ("sdf");
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 8);
 
 			checkLevatation();
 		}
