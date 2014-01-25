@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Guy : MonoBehaviour {
 
-	public bool isGrounded;
+	public bool isGrounded;	
 	public bool hasFlower;
 
 	float groundedCount = 0;
