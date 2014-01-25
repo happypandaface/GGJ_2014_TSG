@@ -18,13 +18,27 @@ public class Guy : MonoBehaviour, ItemUser {
 	private HeldItem heldItem;
 	private bool facingLeft;
 
+	//Footstep stuff
+	public AudioClip footStepAudClip;
+	public float footStepPitchRand = 0.1f;
+	private AudioSource footStepAudSource;
+	public float footStepFrequency = 0.1f;
+	private float footStepTimer;
+	private bool isWalking;
+
 	int groundedCount = 0;
 
 	// Use this for initialization
 	void Start () {
 		itemsDict = new Dictionary<string, UsedItem>();
 
+		//Get levitate script for reference
 		levitationScript = GetComponent<Levitate>() as Levitate;
+
+		//Set footstep timer
+		footStepTimer = footStepFrequency;
+		//Set up audio
+		footStepAudSource = AddAudio(footStepAudClip, false, 0.5f);
 
 		itemsDict = new Dictionary<string, UsedItem>();
 		for (int i = 0; i < itemKeys.Count && i < itemTrans.Count; ++i)
@@ -40,6 +54,7 @@ public class Guy : MonoBehaviour, ItemUser {
 		{
 			heldItem.transform.position = new Vector3(transform.position.x, transform.position.y+1.4f, transform.position.z);
 		}
+		isWalking = Mathf.Abs(rigidbody2D.velocity.x) < 1 ? false : true;
 		if (!checkGrounded())
 		{
 			rigidbody2D.drag = 0;
@@ -54,13 +69,39 @@ public class Guy : MonoBehaviour, ItemUser {
 			if (rigidbody2D.velocity.x > maxSpeed)
 				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
 
+			if (checkGrounded())
+			{
+				if (isWalking)
+				{
+					UpdateFootstep();
+				}
+				else
+				{
+					footStepAudSource.Play();
+				}
+			}
+
 			levitationScript.checkLevatation();
-		}else if (Input.GetKey(KeyCode.LeftArrow))
+		}
+		else if (Input.GetKey(KeyCode.LeftArrow))
 		{
 			facingLeft = true;
 			rigidbody2D.AddForce(new Vector2(-70, 0));
 			if (rigidbody2D.velocity.x < -maxSpeed)
 				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
+
+			if (checkGrounded())
+			{
+				print (isWalking);
+				if (isWalking)
+				{
+					UpdateFootstep();
+				}
+				else
+				{
+					footStepAudSource.Play();
+				}
+			}
 
 			levitationScript.checkLevatation();
 		}
@@ -108,8 +149,6 @@ public class Guy : MonoBehaviour, ItemUser {
 		{
 			Application.LoadLevel(Application.loadedLevel);
 		}
-
-
 	}
 
 	void OnCollisionEnter2D(Collision2D col2d)
@@ -166,5 +205,28 @@ public class Guy : MonoBehaviour, ItemUser {
 		print ("done");
 	}
 
+	void UpdateFootstep()
+	{
 
+		if (footStepTimer <= 0)
+		{
+			footStepAudSource.pitch = Random.Range(1.0f - footStepPitchRand, 1.0f + footStepPitchRand);
+			footStepAudSource.Play();
+			footStepTimer = footStepFrequency;
+		}
+
+		print (footStepTimer);
+		footStepTimer -= Time.deltaTime;
+	}
+
+	AudioSource AddAudio(AudioClip clip, bool loop, float vol)
+	{
+		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
+		newAudio.clip = clip;
+		newAudio.loop = loop;
+		newAudio.playOnAwake = false;
+		newAudio.volume = vol;
+		
+		return newAudio;
+	}
 }
