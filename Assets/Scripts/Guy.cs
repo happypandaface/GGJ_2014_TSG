@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Guy : MonoBehaviour {
+public class Guy : MonoBehaviour, ItemUser {
 	public bool isGrounded;	
 	public bool hasFlower;
+	public List<string> itemKeys = new List<string>();
+	public List<UseItem> itemTrans = new List<UseItem>();
+	public UseItem weapon;
 
 	//In seconds
 	public float zenTime = 10f;
@@ -15,35 +19,55 @@ public class Guy : MonoBehaviour {
 	private bool isLevatating = false;
 
 	private float maxSpeed = 4;
+	private List<string> itemsHeld = new List<string>();
+	private Transform currentItem;
+	private Dictionary<string, UseItem> itemsDict;
 
 	int groundedCount = 0;
 
 	// Use this for initialization
 	void Start () {
+
 		zenTimer = zenTime;
+
+		itemsDict = new Dictionary<string, UseItem>();
+		for (int i = 0; i < itemKeys.Count && i < itemTrans.Count; ++i)
+		{
+			itemsDict.Add (itemKeys[i], itemTrans[i]);
+		}
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey(KeyCode.RightArrow))
 		{
-			rigidbody2D.AddForce(new Vector2(90, 0));
+			rigidbody2D.AddForce(new Vector2(70, 0));
 			if (rigidbody2D.velocity.x > maxSpeed)
 				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
 
 			checkLevatation();
 		}else if (Input.GetKey(KeyCode.LeftArrow))
 		{
-			rigidbody2D.AddForce(new Vector2(-90, 0));
+			rigidbody2D.AddForce(new Vector2(-70, 0));
 			if (rigidbody2D.velocity.x < -maxSpeed)
 				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
 
 			checkLevatation();
 		}
+		if (HasItem("weapon") && Input.GetKeyDown(KeyCode.Space))
+		{
+			UseItem item = itemsDict["weapon"];
+			//itemsDict.TryGetValue("weapon", out item);
+			UseItem usedItem = (UseItem)Instantiate(item, transform.position, Quaternion.identity);
+			usedItem.SetItemUser(this);
+		}
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
+			//<<<<<<< HEAD
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
 			print ("sdf");
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 8);
+			//rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 8);
 
 			checkLevatation();
 		}
@@ -69,6 +93,8 @@ public class Guy : MonoBehaviour {
 				levatate += Time.deltaTime;
 				transform.position = new Vector2(transform.position.x,Mathf.Sin(levatate) + zenHeight);
 			}
+//=======
+//>>>>>>> b36819f9a2ae6792e066d7cb257b595efbc10e53
 		}
 	}
 
@@ -91,12 +117,34 @@ public class Guy : MonoBehaviour {
 
 	public bool checkGrounded()
 	{
-		RaycastHit2D rh = Physics2D.Raycast(getPosition(), -Vector2.up, Mathf.Infinity);
-		if (rh.rigidbody.CompareTag("floor"))
+		RaycastHit2D[] rhs = Physics2D.RaycastAll(getPosition(), -Vector2.up, .6f);
+		foreach (RaycastHit2D rh in rhs)
 		{
-			print("down");
+			if (rh.collider.CompareTag("floor"))
+				return groundedCount > 0;
 		}
-		return groundedCount > 0;
+		return false;
+	}
+
+	public void AddItem(string type)
+	{
+		if (!HasItem(type))
+			itemsHeld.Add(type);
+	}
+	
+	public bool HasItem(string type)
+	{
+		return itemsHeld.Find(itemStr => itemStr.Equals(type)) != null;
+	}
+
+	public Vector3 GetPosition()
+	{
+		return new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
+	}
+	
+	public void FinishedUsing()
+	{
+		print ("done");
 	}
 
 	//Stop levatation and resets timer when player uses input
