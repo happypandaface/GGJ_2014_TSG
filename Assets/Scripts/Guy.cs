@@ -39,7 +39,16 @@ public class Guy : MonoBehaviour, ItemUser {
 
 	}
 
-	void Update () {
+	void Update ()
+	{
+		collider2D.sharedMaterial.friction = 0;
+		if (!checkGrounded())
+		{
+			rigidbody2D.drag = 0;
+		}else
+		{
+			rigidbody2D.drag = 10;
+		}
 		if (Input.GetKey(KeyCode.RightArrow))
 		{
 			rigidbody2D.AddForce(new Vector2(70, 0));
@@ -64,17 +73,18 @@ public class Guy : MonoBehaviour, ItemUser {
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
 
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
 
-			print ("sdf");
 
 			checkLevatation();
+		}
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Application.LoadLevel(Application.loadedLevel);
 		}
 
 		//Enlightenment timer count down
 		zenTimer -= Time.deltaTime;
-
-		print (zenTimer);
 		if (zenTimer < 0)
 		{
 
