@@ -15,6 +15,8 @@ public class Guy : MonoBehaviour, ItemUser {
 	private List<string> itemsHeld = new List<string>();
 	private Transform currentItem;
 	private Dictionary<string, UsedItem> itemsDict;
+	private HeldItem heldItem;
+	private bool facingLeft;
 
 	//Footstep stuff
 	public AudioClip footStepAudClip;
@@ -48,10 +50,11 @@ public class Guy : MonoBehaviour, ItemUser {
 
 	void Update ()
 	{
+		if (heldItem != null)
+		{
+			heldItem.transform.position = new Vector3(transform.position.x, transform.position.y+1.4f, transform.position.z);
+		}
 		isWalking = Mathf.Abs(rigidbody2D.velocity.x) < 1 ? false : true;
-
-
-
 		if (!checkGrounded())
 		{
 			rigidbody2D.drag = 0;
@@ -61,6 +64,7 @@ public class Guy : MonoBehaviour, ItemUser {
 		}
 		if (Input.GetKey(KeyCode.RightArrow))
 		{
+			facingLeft = false;
 			rigidbody2D.AddForce(new Vector2(70, 0));
 			if (rigidbody2D.velocity.x > maxSpeed)
 				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
@@ -81,6 +85,7 @@ public class Guy : MonoBehaviour, ItemUser {
 		}
 		else if (Input.GetKey(KeyCode.LeftArrow))
 		{
+			facingLeft = true;
 			rigidbody2D.AddForce(new Vector2(-70, 0));
 			if (rigidbody2D.velocity.x < -maxSpeed)
 				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
@@ -100,14 +105,42 @@ public class Guy : MonoBehaviour, ItemUser {
 
 			levitationScript.checkLevatation();
 		}
-		if (HasItem("weapon") && Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			UsedItem item = itemsDict["weapon"];
-			//itemsDict.TryGetValue("weapon", out item);
-			UsedItem usedItem = (UsedItem)Instantiate(item, transform.position, Quaternion.identity);
-			usedItem.SetItemUser(this);
+			if (heldItem != null)
+			{
+				float horizOffset = 1.8f;
+				if (facingLeft)
+					horizOffset *= -1;
+				heldItem.rigidbody2D.velocity = new Vector2();
+				heldItem.transform.position = new Vector3(transform.position.x+horizOffset, transform.position.y, transform.position.z);
+				heldItem = null;
+			}else
+			if (HasItem("weapon"))
+			{
+				if (heldItem != null)
+				{
+					float horizOffset = 0;
+					if (facingLeft)
+						horizOffset = -1.4f;
+					else
+						horizOffset = 1.4f;
+					heldItem.transform.position = new Vector3(transform.position.x+horizOffset, transform.position.y, transform.position.z);
+					heldItem = null;
+				}else
+				{
+					UsedItem item = itemsDict["weapon"];
+					//itemsDict.TryGetValue("weapon", out item);
+					UsedItem usedItem = (UsedItem)Instantiate(item, transform.position, Quaternion.identity);
+					usedItem.SetItemUser(this);
+				}
+			}
 		}
+<<<<<<< HEAD
 		print(checkGrounded());
+=======
+		
+>>>>>>> 2c0b6daac31662c14a2f3e2d33ecd3df6f80a364
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
 			print ("jump");
@@ -159,6 +192,11 @@ public class Guy : MonoBehaviour, ItemUser {
 	public bool HasItem(string type)
 	{
 		return itemsHeld.Find(itemStr => itemStr.Equals(type)) != null;
+	}
+	
+	public void HoldItem(HeldItem hi)
+	{
+		heldItem = hi;
 	}
 
 	public Vector3 GetPosition()
