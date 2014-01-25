@@ -107,9 +107,10 @@ public class Guy : MonoBehaviour, ItemUser {
 			UsedItem usedItem = (UsedItem)Instantiate(item, transform.position, Quaternion.identity);
 			usedItem.SetItemUser(this);
 		}
+		print(checkGrounded());
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
-
+			print ("jump");
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
 
 
@@ -140,7 +141,7 @@ public class Guy : MonoBehaviour, ItemUser {
 
 	public bool checkGrounded()
 	{
-		RaycastHit2D[] rhs = Physics2D.RaycastAll(getPosition(), -Vector2.up, .6f);
+		RaycastHit2D[] rhs = Physics2D.RaycastAll(getPosition(), -Vector2.up, 1.2f);
 		foreach (RaycastHit2D rh in rhs)
 		{
 			if (rh.collider.CompareTag("floor"))
