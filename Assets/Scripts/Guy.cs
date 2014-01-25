@@ -34,7 +34,6 @@ public class Guy : MonoBehaviour, ItemUser {
 
 	void Update ()
 	{
-		collider2D.sharedMaterial.friction = 0;
 		if (!checkGrounded())
 		{
 			rigidbody2D.drag = 0;
