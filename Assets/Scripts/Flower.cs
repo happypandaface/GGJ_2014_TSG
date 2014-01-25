@@ -21,11 +21,11 @@ public class Flower : MonoBehaviour
 		if (!col.GetComponent<Guy>().checkGrounded())
 		{
 			if (col.rigidbody2D.velocity.y < 0)
-				print("crush");
+				;//print("crush");
 		}
 		else
 		{
-			print ("grounded");
+			//print ("grounded");
 
 			col.GetComponent<Guy>().hasFlower = true;
 

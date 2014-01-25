@@ -167,11 +167,27 @@ public class Guy : MonoBehaviour, ItemUser {
 	{
 		return new Vector2(transform.position.x, transform.position.y);
 	}
+	
+	public Vector2 getPositionLeft()
+	{
+		return new Vector2(renderer.bounds.min.x, transform.position.y);
+	}
+	
+	public Vector2 getPositionRight()
+	{
+		return new Vector2(renderer.bounds.max.x, transform.position.y);
+	}
 
 	public bool checkGrounded()
 	{
-		RaycastHit2D[] rhs = Physics2D.RaycastAll(getPosition(), -Vector2.up, .6f);
-		foreach (RaycastHit2D rh in rhs)
+		RaycastHit2D[] rhsRight = Physics2D.RaycastAll(getPositionRight(), -Vector2.up, .6f);
+		foreach (RaycastHit2D rh in rhsRight)
+		{
+			if (rh.collider.CompareTag("floor"))
+				return groundedCount > 0;
+		}
+		RaycastHit2D[] rhsLeft = Physics2D.RaycastAll(getPositionLeft(), -Vector2.up, .6f);
+		foreach (RaycastHit2D rh in rhsLeft)
 		{
 			if (rh.collider.CompareTag("floor"))
 				return groundedCount > 0;
@@ -202,7 +218,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	
 	public void FinishedUsing()
 	{
-		print ("done");
+		//print ("done");
 	}
 
 	void UpdateFootstep()
