@@ -18,9 +18,10 @@ public class Flower : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D col) 
 	{
-		if (!col.GetComponent<Guy>().isGrounded)
+		if (!col.GetComponent<Guy>().checkGrounded())
 		{
-			print ("not grounded");
+			if (col.rigidbody2D.velocity.y < 0)
+				print("crush");
 		}
 		else
 		{
