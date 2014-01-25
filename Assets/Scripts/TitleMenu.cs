@@ -15,7 +15,7 @@ public class TitleMenu : MonoBehaviour {
 	void OnGUI () {
 		//Play button
 		if (GUI.Button (new Rect (Screen.width/2,Screen.height/2,150,100), "Play")) {
-			Application.LoadLevel("firstScene");
+			Application.LoadLevel("puzzle1");
 		}
 	}
 }

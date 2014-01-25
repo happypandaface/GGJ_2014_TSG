@@ -64,7 +64,6 @@ public class Guy : MonoBehaviour, ItemUser {
 		}
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
-			//<<<<<<< HEAD
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
 			print ("sdf");
 			//rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 8);
@@ -93,8 +92,6 @@ public class Guy : MonoBehaviour, ItemUser {
 				levatate += Time.deltaTime;
 				transform.position = new Vector2(transform.position.x,Mathf.Sin(levatate) + zenHeight);
 			}
-//=======
-//>>>>>>> b36819f9a2ae6792e066d7cb257b595efbc10e53
 		}
 	}
 
