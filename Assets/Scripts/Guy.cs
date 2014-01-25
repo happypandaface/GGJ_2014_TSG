@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Guy : MonoBehaviour {
-
+	public bool isGrounded;	
 	public bool hasFlower;
 
 	private float maxSpeed = 4;
