@@ -85,6 +85,7 @@ public class Guy : MonoBehaviour, ItemUser {
 
 		//Enlightenment timer count down
 		zenTimer -= Time.deltaTime;
+
 		if (zenTimer < 0)
 		{
 
