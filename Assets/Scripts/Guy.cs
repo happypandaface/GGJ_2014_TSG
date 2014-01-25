@@ -66,15 +66,13 @@ public class Guy : MonoBehaviour, ItemUser {
 
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 11);
 
-			print ("sdf");
 
 			checkLevatation();
 		}
 
 		//Enlightenment timer count down
 		zenTimer -= Time.deltaTime;
-
-		print (zenTimer);
+		
 		if (zenTimer < 0)
 		{
 
