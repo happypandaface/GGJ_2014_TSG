@@ -38,7 +38,7 @@ public class Levitate : MonoBehaviour
 				isLevitating = true;
 				doneRising = true;
 				levitate += Time.deltaTime;
-				transform.position = new Vector2(transform.position.x,Mathf.Sin(levitate) + zenHeight);
+				transform.position = new Vector3(transform.position.x,Mathf.Sin(levitate) + zenHeight, 0);
 			}
 		}
 	}

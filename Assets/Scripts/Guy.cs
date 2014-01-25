@@ -136,10 +136,9 @@ public class Guy : MonoBehaviour, ItemUser {
 				}
 			}
 		}
-		
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
-
+			print ("jump");
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
 
 
@@ -170,12 +169,12 @@ public class Guy : MonoBehaviour, ItemUser {
 	
 	public Vector2 getPositionLeft()
 	{
-		return new Vector2(renderer.bounds.min.x, transform.position.y);
+		return new Vector2(renderer.bounds.min.x, renderer.bounds.min.y);
 	}
 	
 	public Vector2 getPositionRight()
 	{
-		return new Vector2(renderer.bounds.max.x, transform.position.y);
+		return new Vector2(renderer.bounds.max.x, renderer.bounds.min.x);
 	}
 
 	public bool checkGrounded()
