@@ -28,6 +28,7 @@ public class Guy : MonoBehaviour {
 		}
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
+			print ("sdf");
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 8);
 		}
 	}
