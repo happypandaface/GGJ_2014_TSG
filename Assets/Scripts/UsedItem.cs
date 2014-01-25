@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UseItem : MonoBehaviour {
+public class UsedItem : MonoBehaviour {
 
 	private ItemUser user;
 
