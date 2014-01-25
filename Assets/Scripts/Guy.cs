@@ -9,14 +9,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	public List<UsedItem> itemTrans = new List<UsedItem>();
 	public UsedItem weapon;
 
-	//In seconds
-	public float zenTime = 10f;
-	public float zenHeight = 10f;
-	private float zenTimer;
-	private float zenMoveSpeed = 0.01f;
-	private float levatate = 0f;
-	private bool doneRising = false;
-	private bool isLevatating = false;
+	private Levitate levitationScript;
 
 	private float maxSpeed = 4;
 	private List<string> itemsHeld = new List<string>();
@@ -29,7 +22,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	void Start () {
 		itemsDict = new Dictionary<string, UsedItem>();
 
-		zenTimer = zenTime;
+		levitationScript = GetComponent<Levitate>() as Levitate;
 
 		itemsDict = new Dictionary<string, UsedItem>();
 		for (int i = 0; i < itemKeys.Count && i < itemTrans.Count; ++i)
@@ -55,13 +48,13 @@ public class Guy : MonoBehaviour, ItemUser {
 			if (rigidbody2D.velocity.x > maxSpeed)
 				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
 
-			checkLevatation();
+			levitationScript.checkLevatation();
 		}else if (Input.GetKey(KeyCode.LeftArrow))
 		{
 			rigidbody2D.AddForce(new Vector2(-70, 0));
 				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
 
-			checkLevatation();
+			levitationScript.checkLevatation();
 		}
 		if (HasItem("weapon") && Input.GetKeyDown(KeyCode.Space))
 		{
@@ -76,34 +69,14 @@ public class Guy : MonoBehaviour, ItemUser {
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
 
 
-			checkLevatation();
+			levitationScript.checkLevatation();
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
 			Application.LoadLevel(Application.loadedLevel);
 		}
 
-		//Enlightenment timer count down
-		zenTimer -= Time.deltaTime;
 
-		if (zenTimer < 0)
-		{
-
-			//remove gravity
-			rigidbody2D.gravityScale = 0;
-
-			if ((transform.position.y < zenHeight) && !doneRising)
-			{
-				transform.Translate(0, zenMoveSpeed,0);
-			}
-			else
-			{
-				isLevatating = true;
-				doneRising = true;
-				levatate += Time.deltaTime;
-				transform.position = new Vector2(transform.position.x,Mathf.Sin(levatate) + zenHeight);
-			}
-		}
 	}
 
 	void OnCollisionEnter2D(Collision2D col2d)
@@ -155,17 +128,5 @@ public class Guy : MonoBehaviour, ItemUser {
 		print ("done");
 	}
 
-	//Stop levatation and resets timer when player uses input
-	void checkLevatation()
-	{
-		//Reset zenTimer
-		zenTimer = zenTime;
 
-		if (isLevatating)
-		{
-			rigidbody2D.gravityScale = 1;
-			isLevatating = false;
-			doneRising = false;
-		}
-	}
 }
