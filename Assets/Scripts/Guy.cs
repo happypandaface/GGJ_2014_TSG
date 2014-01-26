@@ -7,6 +7,8 @@ public class Guy : MonoBehaviour, ItemUser {
 	public bool hasFlower;
 	public List<string> itemKeys = new List<string>();
 	public List<UsedItem> itemTrans = new List<UsedItem>();
+	public List<string> audioKeys = new List<string>();
+	public List<AudioClip> audioClips = new List<AudioClip>();
 	public UsedItem weapon;
 
 	private Levitate levitationScript;
@@ -15,6 +17,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	private List<string> itemsHeld = new List<string>();
 	private Transform currentItem;
 	private Dictionary<string, UsedItem> itemsDict;
+	private Dictionary<string, AudioSource> audioDict;
 	private HeldItem heldItem;
 	private bool facingLeft;
 
@@ -44,6 +47,11 @@ public class Guy : MonoBehaviour, ItemUser {
 		for (int i = 0; i < itemKeys.Count && i < itemTrans.Count; ++i)
 		{
 			itemsDict.Add (itemKeys[i], itemTrans[i]);
+		}
+		audioDict = new Dictionary<string, AudioSource>();
+		for (int i = 0; i < audioKeys.Count && i < audioClips.Count; ++i)
+		{
+			audioDict.Add (audioKeys[i], AddAudio(audioClips[i], false, 1f));
 		}
 
 	}
@@ -140,7 +148,7 @@ public class Guy : MonoBehaviour, ItemUser {
 		{
 			print ("jump");
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
-
+			PlaySound("jump");
 
 			levitationScript.checkLevatation();
 		}
@@ -243,5 +251,11 @@ public class Guy : MonoBehaviour, ItemUser {
 		newAudio.volume = vol;
 		
 		return newAudio;
+	}
+	
+	public void PlaySound(string s)
+	{
+		AudioSource audioToPlay = audioDict[s];
+		audioToPlay.Play ();
 	}
 }
