@@ -9,12 +9,16 @@ public class Flower : MonoBehaviour
 	public AudioClip pickupAudClip;
 	private AudioSource pickupAudSource; 
 
+	public GameObject pickupParticle;
+
 	private bool isCrushed;	
+	private bool isPickedUp;
 
 	// Use this for initialization
 	void Start ()
 	{
 		crushAudSource = AddAudio(crushAudClip, false, 0.5f);
+		pickupAudSource = AddAudio(pickupAudClip, false, 1f);
 	}
 
 	// Update is called once per frame
@@ -27,7 +31,7 @@ public class Flower : MonoBehaviour
 	{
 		if (!col.GetComponent<Guy>().checkGrounded())
 		{
-			if (col.rigidbody2D.velocity.y < 0)
+			if ((col.rigidbody2D.velocity.y < 0) && !col.GetComponent<Guy>().isGrounded)
 			{
 				crushAudSource.Play ();
 				print ("crush");
@@ -42,12 +46,20 @@ public class Flower : MonoBehaviour
 		}
 		else
 		{
-			if (!isCrushed)
+			if ((!isCrushed) && !isPickedUp )
 			{
-				print ("pickup");
+				isPickedUp = true; 
+
 				col.GetComponent<Guy>().hasFlower = true;
 
-				Destroy(gameObject);
+				pickupAudSource.Play(); 
+
+				transform.GetComponent<SpriteRenderer>().enabled = false;
+
+				GameObject particle = Instantiate(pickupParticle, new Vector3(transform.position.x, -transform.position.y, -6),  Quaternion.Euler(0,0,0)) as GameObject;
+				print (particle);
+				//delay so sound will play
+				Destroy(gameObject, 2);
 			}
 		}
 	}
