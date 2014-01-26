@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Switch : MonoBehaviour {
 	public Trigger trigger;
+	private bool triggered;
 
 
 	// Use this for initialization
@@ -15,8 +16,10 @@ public class Switch : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter2D()
+	void OnTriggerEnter2D()
 	{
-		trigger.toggle();
+		if (!triggered)
+			trigger.toggle();
+		triggered = true;
 	}
 }

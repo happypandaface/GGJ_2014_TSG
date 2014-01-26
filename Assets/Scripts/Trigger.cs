@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Trigger : MonoBehaviour {
-	private bool active;
+	public bool active;
 
 	// Use this for initialization
 	void Start () {

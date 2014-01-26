@@ -28,6 +28,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	public float footStepFrequency = 0.1f;
 	private float footStepTimer;
 	private bool isWalking;
+	private bool inAir;
 
 	int groundedCount = 0;
 
@@ -161,13 +162,24 @@ public class Guy : MonoBehaviour, ItemUser {
 	void OnCollisionEnter2D(Collision2D col2d)
 	{
 		if (col2d.gameObject.CompareTag("floor"))
+		{
 			groundedCount++;
+			if (inAir && checkGrounded())
+			{
+				inAir = false;
+				PlaySound ("land");
+			}
+		}
 	}
 	
 	void OnCollisionExit2D(Collision2D col2d)
 	{
 		if (col2d.gameObject.CompareTag("floor"))
+		{
 			groundedCount--;
+		}
+		if (!checkGrounded())
+			inAir = true;
 	}
 
 	public Vector2 getPosition()
