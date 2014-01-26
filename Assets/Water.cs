@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Water : MonoBehaviour
+public class Water : MonoBehaviour, DeathListener
 {
 	public float moveSpeed = 0.1f;
 	public Transform fadeOut;
@@ -11,6 +11,7 @@ public class Water : MonoBehaviour
 	private float breath = 0;
 	private float startY;
 	private bool fading = false;
+	private bool fatManKilled;
 
 	// Use this for initialization
 	void Start ()
@@ -26,6 +27,8 @@ public class Water : MonoBehaviour
 		waterLevel += Time.deltaTime;
 		//print (""+Mathf.Cos (sinStuff)*10);
 		transform.position = new Vector3(0, waterLevel*.03f*f+Mathf.Sin (sinStuff*1.4f)*.04f*f+startY, 0);
+		//if (transform.position.y < -14)
+		//	transform.position = new Vector3(0, -14, 0);
 	}
 
 	void OnTriggerEnter2D (Collider2D col) 
@@ -42,6 +45,10 @@ public class Water : MonoBehaviour
 				{
 					if (!fading)
 					{
+						//if (!fatManKilled)
+						col.GetComponent<Guy>().modKarma(1);
+						col.GetComponent<Guy>().reBirth();
+
 						col.GetComponent<Guy>().Freeze();
 						
 						fade f = ((Transform)Instantiate(fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();
@@ -60,5 +67,11 @@ public class Water : MonoBehaviour
 		}
 
 	}
+
+	public void thingKilled(GameObject go)
+	{
+		fatManKilled = true;
+	}
+
 }
 
