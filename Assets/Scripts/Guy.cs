@@ -162,6 +162,10 @@ public class Guy : Dies, ItemUser {
 		{
 			if (heldItem != null)
 			{
+				if (heldItem.GetComponent<Bunny>() != null)
+				{
+					heldItem.GetComponent<Bunny>().PlayThrowSound();
+				}
 				float horizOffset = 1.8f;
 				if (facingLeft)
 					horizOffset *= -1;
