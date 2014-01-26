@@ -272,13 +272,18 @@ public class Guy : Dies, ItemUser {
 	
 	public Vector2 getPositionLeft()
 	{
-		return new Vector2(transform.position.x-GetComponent<BoxCollider2D>().size.x/3f*transform.localScale.x, transform.position.y-GetComponent<BoxCollider2D>().size.y/2f*transform.localScale.y);
+		return new Vector2(transform.position.x-GetComponent<BoxCollider2D>().size.x/2*transform.localScale.x, transform.position.y-GetComponent<BoxCollider2D>().size.y/2f*transform.localScale.y);
 	}
 	
 	public Vector2 getPositionRight()
 	{
 
 		return new Vector2(transform.position.x+GetComponent<BoxCollider2D>().size.x/2f*transform.localScale.x, transform.position.y-GetComponent<BoxCollider2D>().size.y/2f*transform.localScale.y);
+	}
+
+	public Vector2 getSize()
+	{
+		return new Vector2(GetComponent<BoxCollider2D>().size.x*transform.localScale.x, GetComponent<BoxCollider2D>().size.y*transform.localScale.y);
 	}
 
 	public bool checkGrounded()
