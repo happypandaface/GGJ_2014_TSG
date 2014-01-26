@@ -42,6 +42,7 @@ public class Flower : MonoBehaviour
 
 				//Make is so you can't pick up flower
 				isCrushed = true;
+				col.GetComponent<Guy>().messedWithFlower = true;
 			}
 
 		}
@@ -51,7 +52,7 @@ public class Flower : MonoBehaviour
 			{
 				isPickedUp = true; 
 
-				col.GetComponent<ItemUser>().AddItem("Flower");
+				col.GetComponent<Guy>().messedWithFlower = true;
 
 				pickupAudSource.Play(); 
 

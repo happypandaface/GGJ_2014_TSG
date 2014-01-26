@@ -46,6 +46,7 @@ public class Guy : Dies, ItemUser {
 	private bool frozen;
 	private float jumpForce = 17;
 	public bool isEnlightened;
+	public bool messedWithFlower;
 
 	private string[] deathStuff = {
 		"We travel the six worlds, weary seekers on the path. What lies ahead, lies behind.",

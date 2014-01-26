@@ -32,57 +32,62 @@ public class Levitate : MonoBehaviour
 		risingAudSource = AddAudio(risingAudClip, false, 1);
 		levitatingAudSource = AddAudio(levitatingAudClip, true, 1);
 
+		bCanMove = true;
+
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		//Enlightenment timer count down
-		zenTimer -= Time.deltaTime;
-
-		
-		if (zenTimer < 0)
+		if (!transform.GetComponent<Guy>().messedWithFlower)
 		{
-			
-			//remove gravity
-			rigidbody2D.gravityScale = 0;
-			
-			if ((transform.position.y < zenHeight) && !doneRising)
-			{
-				if (!bStarted)
-				{
-					risingAudSource.Play();
-					bStarted = true;
-					transform.GetComponent<Guy>().SitDown();
-				}
-				transform.Translate(0, zenMoveSpeed,0);
-			}
-			else
-			{
-				if (!doneRising && !isLevitating)
-				{
+			//Enlightenment timer count down
+			zenTimer -= Time.deltaTime;
 
-				}
-				fadeOutTimer -= Time.deltaTime;
+			
+			if (zenTimer < 0)
+			{
 				
-				if (fadeOutTimer < 0)
+				//remove gravity
+				rigidbody2D.gravityScale = 0;
+				
+				if ((transform.position.y < zenHeight) && !doneRising)
 				{
-					bCanMove = false;
-
-					fadeOutTimer = fadeOutTime;
-					
-					EnlightenmentFade f = ((Transform)Instantiate (fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<EnlightenmentFade>();
-					f.start = 0;
-					f.end = 1;
-					f.speed = 0.1f;
-
-					bCanMove = false;
-					transform.GetComponent<Guy>().isEnlightened = true;
+					if (!bStarted)
+					{
+						risingAudSource.Play();
+						bStarted = true;
+						transform.GetComponent<Guy>().SitDown();
+					}
+					transform.Translate(0, zenMoveSpeed,0);
 				}
-				isLevitating = true;
-				doneRising = true;
-				levitate += Time.deltaTime;
-				transform.position = new Vector3(transform.position.x,Mathf.Sin(levitate) + zenHeight, 0);
+				else
+				{
+					if (!doneRising && !isLevitating)
+					{
+
+					}
+					fadeOutTimer -= Time.deltaTime;
+					
+					if (fadeOutTimer < 0)
+					{
+						bCanMove = false;
+
+						fadeOutTimer = fadeOutTime;
+						
+						EnlightenmentFade f = ((Transform)Instantiate (fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<EnlightenmentFade>();
+						f.start = 0;
+						f.end = 1;
+						f.speed = 0.1f;
+
+						bCanMove = false;
+						transform.GetComponent<Guy>().isEnlightened = true;
+					}
+					isLevitating = true;
+					doneRising = true;
+					levitate += Time.deltaTime;
+					transform.position = new Vector3(transform.position.x,Mathf.Sin(levitate) + zenHeight, 0);
+				}
 			}
 		}
 	}
@@ -92,7 +97,8 @@ public class Levitate : MonoBehaviour
 	{
 		//Reset zenTimer
 		zenTimer = zenTime;
-		
+
+		print("can move" + bCanMove);
 		if ((isLevitating || bStarted) && bCanMove)
 		{
 
