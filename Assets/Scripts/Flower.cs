@@ -51,7 +51,7 @@ public class Flower : MonoBehaviour
 			{
 				isPickedUp = true; 
 
-				col.GetComponent<Guy>().hasFlower = true;
+				col.GetComponent<ItemUser>().AddItem("Flower");
 
 				pickupAudSource.Play(); 
 

@@ -19,11 +19,15 @@ public class Levitate : MonoBehaviour
 	private bool isLevitating = false;
 
 	public Transform fadeOut;
+	public float fadeOutTime = 5;
+	private float fadeOutTimer;
+	private bool bCanMove;
 
 	// Use this for initialization
 	void Start ()
 	{
 		zenTimer = zenTime;
+		fadeOutTimer = fadeOutTime;
 
 		risingAudSource = AddAudio(risingAudClip, false, 1);
 		levitatingAudSource = AddAudio(levitatingAudClip, true, 1);
@@ -35,6 +39,7 @@ public class Levitate : MonoBehaviour
 	{
 		//Enlightenment timer count down
 		zenTimer -= Time.deltaTime;
+
 		
 		if (zenTimer < 0)
 		{
@@ -48,6 +53,7 @@ public class Levitate : MonoBehaviour
 				{
 					risingAudSource.Play();
 					bStarted = true;
+					transform.GetComponent<Guy>().SitDown();
 				}
 				transform.Translate(0, zenMoveSpeed,0);
 			}
@@ -55,10 +61,23 @@ public class Levitate : MonoBehaviour
 			{
 				if (!doneRising && !isLevitating)
 				{
+
+				}
+				fadeOutTimer -= Time.deltaTime;
+				
+				if (fadeOutTimer < 0)
+				{
+					bCanMove = false;
+
+					fadeOutTimer = fadeOutTime;
+					
 					EnlightenmentFade f = ((Transform)Instantiate (fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<EnlightenmentFade>();
 					f.start = 0;
 					f.end = 1;
 					f.speed = 0.1f;
+
+					bCanMove = false;
+					transform.GetComponent<Guy>().isEnlightened = true;
 				}
 				isLevitating = true;
 				doneRising = true;
@@ -74,7 +93,7 @@ public class Levitate : MonoBehaviour
 		//Reset zenTimer
 		zenTimer = zenTime;
 		
-		if (isLevitating || bStarted)
+		if ((isLevitating || bStarted) && bCanMove)
 		{
 
 			rigidbody2D.gravityScale = 4;
@@ -82,6 +101,7 @@ public class Levitate : MonoBehaviour
 			doneRising = false;
 			bStarted = false;
 			risingAudSource.Stop();
+			transform.GetComponent<Guy>().Standup();
 		}
 	}
 

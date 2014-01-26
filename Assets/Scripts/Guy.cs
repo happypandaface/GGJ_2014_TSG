@@ -29,6 +29,9 @@ public class Guy : Dies, ItemUser {
 	static bool reincarnating;
 	static int currentDeathQuote = 0;
 
+	public Sprite sittingSprite;
+	public Sprite standingSprite;
+
 	//Footstep stuff
 	public AudioClip footStepAudClip;
 	public float footStepPitchRand = 0.1f;
@@ -42,6 +45,7 @@ public class Guy : Dies, ItemUser {
 	private bool isImageFacingLeft;
 	private bool frozen;
 	private float jumpForce = 17;
+	public bool isEnlightened;
 
 	private string[] deathStuff = {
 		"We travel the six worlds, weary seekers on the path. What lies ahead, lies behind.",
@@ -128,64 +132,68 @@ public class Guy : Dies, ItemUser {
 			heldItem.transform.position = new Vector3(transform.position.x, transform.position.y+1.4f, transform.position.z);
 		}
 		isWalking = Mathf.Abs(rigidbody2D.velocity.x) < 1 ? false : true;
-		if (!checkGrounded())
+
+		if (!isEnlightened)
 		{
-			rigidbody2D.drag = 2;
-		}else
-		{
-			rigidbody2D.drag = 10;
-		}
-		if (Input.GetKey(KeyCode.RightArrow))
-		{
-			facingLeft = false;
-
-
-			rigidbody2D.AddForce(new Vector2(70, 0));
-			if (rigidbody2D.velocity.x > maxSpeed)
-				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
-
-			if (isGhost)
-				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
-
-			if (checkGrounded())
+			if (!checkGrounded())
 			{
-				if (isWalking)
-				{
-					UpdateFootstep();
-				}
-				else
-				{
-					footStepAudSource.Play();
-				}
-			}
-
-			if (levitationScript != null)
-				levitationScript.checkLevatation();
-		}
-		else if (Input.GetKey(KeyCode.LeftArrow))
-		{
-			facingLeft = true;
-			rigidbody2D.AddForce(new Vector2(-70, 0));
-			if (rigidbody2D.velocity.x < -maxSpeed)
-				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
-			
-			if (isGhost)
-				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
-
-			if (checkGrounded())
+				rigidbody2D.drag = 2;
+			}else
 			{
-				if (isWalking)
-				{
-					UpdateFootstep();
-				}
-				else
-				{
-					footStepAudSource.Play();
-				}
+				rigidbody2D.drag = 10;
 			}
+			if (Input.GetKey(KeyCode.RightArrow))
+			{
+				facingLeft = false;
 
-			if (levitationScript != null)
-				levitationScript.checkLevatation();
+
+				rigidbody2D.AddForce(new Vector2(70, 0));
+				if (rigidbody2D.velocity.x > maxSpeed)
+					rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
+
+				if (isGhost)
+					rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
+
+				if (checkGrounded())
+				{
+					if (isWalking)
+					{
+						UpdateFootstep();
+					}
+					else
+					{
+						footStepAudSource.Play();
+					}
+				}
+
+				if (levitationScript != null)
+					levitationScript.checkLevatation();
+			}
+			else if (Input.GetKey(KeyCode.LeftArrow))
+			{
+				facingLeft = true;
+				rigidbody2D.AddForce(new Vector2(-70, 0));
+				if (rigidbody2D.velocity.x < -maxSpeed)
+					rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
+				
+				if (isGhost)
+					rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
+
+				if (checkGrounded())
+				{
+					if (isWalking)
+					{
+						UpdateFootstep();
+					}
+					else
+					{
+						footStepAudSource.Play();
+					}
+				}
+
+				if (levitationScript != null)
+					levitationScript.checkLevatation();
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -241,24 +249,27 @@ public class Guy : Dies, ItemUser {
 		}
 
 		//Flip direction
-		if ((Input.GetKeyDown(KeyCode.LeftArrow)))
+		if (!isEnlightened)
 		{
-
-			print (facingLeft);
-			if (!isImageFacingLeft)
+			if ((Input.GetKeyDown(KeyCode.LeftArrow)))
 			{
-				isImageFacingLeft = !isImageFacingLeft;
-				transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
+
+				print (facingLeft);
+				if (!isImageFacingLeft)
+				{
+					isImageFacingLeft = !isImageFacingLeft;
+					transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
+				}
 			}
-		}
-		if ((Input.GetKeyDown(KeyCode.RightArrow)))
-		{
-
-			print (!isImageFacingLeft);
-			if (isImageFacingLeft)
+			if ((Input.GetKeyDown(KeyCode.RightArrow)))
 			{
-				isImageFacingLeft = !isImageFacingLeft;
-				transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
+
+				print (!isImageFacingLeft);
+				if (isImageFacingLeft)
+				{
+					isImageFacingLeft = !isImageFacingLeft;
+					transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
+				}
 			}
 		}
 		if (frozen == true)
@@ -434,5 +445,15 @@ public class Guy : Dies, ItemUser {
 	public void Freeze()
 	{
 		frozen = true;
+	}
+
+	public void SitDown()
+	{
+		GetComponent<SpriteRenderer>().sprite = sittingSprite;
+	}
+
+	public void Standup()
+	{
+		GetComponent<SpriteRenderer>().sprite = standingSprite;
 	}
 }
