@@ -6,6 +6,9 @@ public class Flower : MonoBehaviour
 	public AudioClip crushAudClip;
 	private AudioSource crushAudSource;
 
+	public AudioClip pickupAudClip;
+	private AudioSource pickupAudSource; 
+
 	private bool isCrushed;	
 
 	// Use this for initialization
@@ -41,6 +44,7 @@ public class Flower : MonoBehaviour
 		{
 			if (!isCrushed)
 			{
+				print ("pickup");
 				col.GetComponent<Guy>().hasFlower = true;
 
 				Destroy(gameObject);
