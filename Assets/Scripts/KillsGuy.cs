@@ -22,6 +22,8 @@ public class KillsGuy : MonoBehaviour {
 		{
 			if (transform.position.y > col.gameObject.transform.position.y)
 			{
+				if (col.collider.CompareTag("guy"))
+					col.collider.GetComponent<Guy>().modKarma(1);
 				deathSource.Play ();
 				col.gameObject.GetComponent<Dies>().Die();
 			}
