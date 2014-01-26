@@ -16,10 +16,13 @@ public class Switch : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter2D()
+	void OnTriggerEnter2D(Collider2D col)
 	{
-		if (!triggered)
-			trigger.toggle();
-		triggered = true;
+		if (col.CompareTag("guy"))
+		{
+			if (!triggered)
+				trigger.toggle();
+			triggered = true;
+		}
 	}
 }

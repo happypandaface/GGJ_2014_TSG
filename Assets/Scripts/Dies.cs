@@ -21,5 +21,6 @@ public class Dies : MonoBehaviour {
 			spatter.rigidbody2D.velocity = Random.insideUnitCircle*5;
 			spatter.rigidbody2D.angularVelocity = Random.value;
 		}
+		Destroy(gameObject);
 	}
 }

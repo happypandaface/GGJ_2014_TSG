@@ -101,7 +101,6 @@ public class Guy : MonoBehaviour, ItemUser {
 
 			if (checkGrounded())
 			{
-				print (isWalking);
 				if (isWalking)
 				{
 					UpdateFootstep();
@@ -123,6 +122,7 @@ public class Guy : MonoBehaviour, ItemUser {
 					horizOffset *= -1;
 				heldItem.rigidbody2D.velocity = new Vector2();
 				heldItem.transform.position = new Vector3(transform.position.x+horizOffset, transform.position.y, transform.position.z);
+				heldItem.unHold ();
 				heldItem = null;
 			}else
 			if (HasItem("weapon"))
@@ -147,7 +147,6 @@ public class Guy : MonoBehaviour, ItemUser {
 		}
 		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
 		{
-			print ("jump");
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
 			PlaySound("jump");
 
@@ -189,23 +188,24 @@ public class Guy : MonoBehaviour, ItemUser {
 	
 	public Vector2 getPositionLeft()
 	{
-		return new Vector2(renderer.bounds.min.x, renderer.bounds.min.y);
+		return new Vector2(GetComponent<SpriteRenderer>().bounds.min.x, GetComponent<SpriteRenderer>().bounds.min.y);
 	}
 	
 	public Vector2 getPositionRight()
 	{
-		return new Vector2(renderer.bounds.max.x, renderer.bounds.min.x);
+
+		return new Vector2(GetComponent<SpriteRenderer>().bounds.max.x, GetComponent<SpriteRenderer>().bounds.min.y);
 	}
 
 	public bool checkGrounded()
 	{
-		RaycastHit2D[] rhsRight = Physics2D.RaycastAll(getPositionRight(), -Vector2.up, .6f);
+		RaycastHit2D[] rhsRight = Physics2D.RaycastAll(getPositionRight(), -Vector2.up, .4f);
 		foreach (RaycastHit2D rh in rhsRight)
 		{
 			if (rh.collider.CompareTag("floor"))
 				return groundedCount > 0;
 		}
-		RaycastHit2D[] rhsLeft = Physics2D.RaycastAll(getPositionLeft(), -Vector2.up, .6f);
+		RaycastHit2D[] rhsLeft = Physics2D.RaycastAll(getPositionLeft(), -Vector2.up, .4f);
 		foreach (RaycastHit2D rh in rhsLeft)
 		{
 			if (rh.collider.CompareTag("floor"))
@@ -250,7 +250,6 @@ public class Guy : MonoBehaviour, ItemUser {
 			footStepTimer = footStepFrequency;
 		}
 
-		print (footStepTimer);
 		footStepTimer -= Time.deltaTime;
 	}
 
