@@ -3,6 +3,13 @@ using System.Collections;
 
 public class Levitate : MonoBehaviour
 {
+
+	public AudioClip risingAudClip;
+	private AudioSource risingAudSource;
+	public  AudioClip levitatingAudClip;
+	private AudioSource levitatingAudSource;
+	private bool bStarted;
+
 	public float zenTime = 10f; //In seconds
 	public float zenHeight = 4f;
 	private float zenTimer;
@@ -15,6 +22,9 @@ public class Levitate : MonoBehaviour
 	void Start ()
 	{
 		zenTimer = zenTime;
+
+		risingAudSource = AddAudio(risingAudClip, false, 1);
+		levitatingAudSource = AddAudio(levitatingAudClip, true, 1);
 	}
 
 	// Update is called once per frame
@@ -31,6 +41,11 @@ public class Levitate : MonoBehaviour
 			
 			if ((transform.position.y < zenHeight) && !doneRising)
 			{
+				if (bStarted)
+				{
+					risingAudSource.Play();
+					bStarted = true;
+				}
 				transform.Translate(0, zenMoveSpeed,0);
 			}
 			else
@@ -55,6 +70,17 @@ public class Levitate : MonoBehaviour
 			isLevitating = false;
 			doneRising = false;
 		}
+	}
+
+	AudioSource AddAudio(AudioClip clip, bool loop, float vol)
+	{
+		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
+		newAudio.clip = clip;
+		newAudio.loop = loop;
+		newAudio.playOnAwake = false;
+		newAudio.volume = vol;
+		
+		return newAudio;
 	}
 }
 
