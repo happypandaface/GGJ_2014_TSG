@@ -398,12 +398,12 @@ public class Guy : Dies, ItemUser {
 		int num = -1;
 		for (int i = 0; i < 4; ++i)
 		{
-			if (roomLink[i] == Application.loadedLevelName)
+			if (roomLink[i] == Application.loadedLevel)
 			{
 				num = i;
 			}
 		}
-		if (num == -1)
+		if (nextLevel.Equals("FlowerLevel"))
 		{
 			return deathStuff[currentDeathQuote];
 			currentDeathQuote++;
