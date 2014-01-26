@@ -30,6 +30,8 @@ public class Guy : MonoBehaviour, ItemUser {
 	private bool isWalking;
 	private bool inAir;
 
+	private bool isImageFacingLeft;
+
 	int groundedCount = 0;
 
 	// Use this for initialization
@@ -74,6 +76,7 @@ public class Guy : MonoBehaviour, ItemUser {
 		if (Input.GetKey(KeyCode.RightArrow))
 		{
 			facingLeft = false;
+
 			rigidbody2D.AddForce(new Vector2(70, 0));
 			if (rigidbody2D.velocity.x > maxSpeed)
 				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
@@ -155,6 +158,28 @@ public class Guy : MonoBehaviour, ItemUser {
 		if (Input.GetKeyDown(KeyCode.R))
 		{
 			Application.LoadLevel(Application.loadedLevel);
+		}
+
+		//Flip direction
+		if ((Input.GetKeyDown(KeyCode.LeftArrow)))
+		{
+
+			print (facingLeft);
+			if (!isImageFacingLeft)
+			{
+				isImageFacingLeft = !isImageFacingLeft;
+				transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
+			}
+		}
+		if ((Input.GetKeyDown(KeyCode.RightArrow)))
+		{
+
+			print (!isImageFacingLeft);
+			if (isImageFacingLeft)
+			{
+				isImageFacingLeft = !isImageFacingLeft;
+				transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
+			}
 		}
 	}
 
