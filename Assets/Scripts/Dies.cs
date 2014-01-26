@@ -3,9 +3,13 @@ using System.Collections;
 
 public class Dies : MonoBehaviour {
 	public Transform spatterTrans;
+	public AudioClip deathSound;
 	// Use this for initialization
+	public AudioSource deathSource;
 	void Start () {
-	
+		deathSource = gameObject.AddComponent<AudioSource>();
+		deathSource.clip = deathSound;
+		deathSource.loop = false;
 	}
 	
 	// Update is called once per frame

@@ -20,6 +20,8 @@ public class Guy : MonoBehaviour, ItemUser {
 	private Dictionary<string, AudioSource> audioDict;
 	private HeldItem heldItem;
 	private bool facingLeft;
+	
+	static int stuff = 0;
 
 	//Footstep stuff
 	public AudioClip footStepAudClip;
@@ -34,6 +36,8 @@ public class Guy : MonoBehaviour, ItemUser {
 
 	// Use this for initialization
 	void Start () {
+		stuff++;
+		print(stuff);
 		itemsDict = new Dictionary<string, UsedItem>();
 
 		//Get levitate script for reference
