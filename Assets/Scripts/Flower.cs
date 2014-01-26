@@ -17,6 +17,7 @@ public class Flower : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		//DontDestroyOnLoad(transform.gameObject);
 		crushAudSource = AddAudio(crushAudClip, false, 0.5f);
 		pickupAudSource = AddAudio(pickupAudClip, false, 1f);
 	}
@@ -26,7 +27,7 @@ public class Flower : MonoBehaviour
 	{
 
 	}
-
+	
 	void OnTriggerEnter2D (Collider2D col) 
 	{
 		if (!col.GetComponent<Guy>().checkGrounded())
