@@ -41,7 +41,7 @@ public class Levitate : MonoBehaviour
 			
 			if ((transform.position.y < zenHeight) && !doneRising)
 			{
-				if (bStarted)
+				if (!bStarted)
 				{
 					risingAudSource.Play();
 					bStarted = true;
@@ -64,11 +64,14 @@ public class Levitate : MonoBehaviour
 		//Reset zenTimer
 		zenTimer = zenTime;
 		
-		if (isLevitating)
+		if (isLevitating || bStarted)
 		{
+
 			rigidbody2D.gravityScale = 1;
 			isLevitating = false;
 			doneRising = false;
+			bStarted = false;
+			risingAudSource.Stop();
 		}
 	}
 
