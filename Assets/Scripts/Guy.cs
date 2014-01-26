@@ -12,6 +12,7 @@ public class Guy : Dies, ItemUser {
 	public UsedItem weapon;
 	public Transform fadeOut;
 	public Sprite hungryHungryGhost;
+	public Sprite fightingFightingGod;
 
 	private Levitate levitationScript;
 
@@ -45,8 +46,8 @@ public class Guy : Dies, ItemUser {
 
 	// Use this for initialization
 	void Start () {
-		reincarnating = true;
-		karma = 0;//-1;
+		//reincarnating = true;
+		//karma = 1;
 		if (reincarnating)
 		{
 			print (karma);
@@ -61,12 +62,12 @@ public class Guy : Dies, ItemUser {
 			}else
 			if (karma > 0)
 			{
-				GetComponent<SpriteRenderer>().sprite = hungryHungryGhost;
-				jumpForce = 7;
-				karma = -1;
+				GetComponent<SpriteRenderer>().sprite = fightingFightingGod;
+				jumpForce = 30;
+				karma = 1;
 				isGod = true;
-				rigidbody2D.isKinematic = true;
-				rigidbody2D.drag = 4;
+				//rigidbody2D.isKinematic = true;
+				//rigidbody2D.drag = 4;
 			}
 		}
 		itemsDict = new Dictionary<string, UsedItem>();
@@ -132,7 +133,8 @@ public class Guy : Dies, ItemUser {
 				}
 			}
 
-			levitationScript.checkLevatation();
+			if (levitationScript != null)
+				levitationScript.checkLevatation();
 		}
 		else if (Input.GetKey(KeyCode.LeftArrow))
 		{
@@ -156,7 +158,8 @@ public class Guy : Dies, ItemUser {
 				}
 			}
 
-			levitationScript.checkLevatation();
+			if (levitationScript != null)
+				levitationScript.checkLevatation();
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -372,6 +375,11 @@ public class Guy : Dies, ItemUser {
 		f.end = 1;
 		f.nextLevel = "FlowerScene";
 		base.Die ();
+	}
+
+	public void reBirth()
+	{
+		reincarnating = true;
 	}
 
 	public void Freeze()

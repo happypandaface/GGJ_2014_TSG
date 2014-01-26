@@ -5,6 +5,7 @@ public class FatMan : MonoBehaviour {
 	
 	public Sprite spr;
 	public Transform fatmanDead;
+	public Transform dListener;
 
 	private Sprite lastSpr;
 	private float waveHands = 0;
@@ -37,7 +38,8 @@ public class FatMan : MonoBehaviour {
 	{
 		if (col.collider.CompareTag("floor"))
 		{
-			Instantiate (fatmanDead, transform.position+new Vector3(-1, -1, 0), Quaternion.identity);
+			(dListener.GetComponent(typeof(DeathListener)) as DeathListener).thingKilled(this.gameObject);
+			Instantiate (fatmanDead, transform.position+new Vector3(-1, -1.3f, 0), Quaternion.Euler(0, 0, 20));
 			Destroy (this.gameObject);
 		}
 	}

@@ -6,7 +6,7 @@ public class TitleMenu : MonoBehaviour {
 	public GameObject creditTextSprite;
 	public float moveSpeed = 0.1f;
 
-	private bPlayCredits;
+//	private bPlayCredits;
 
 	// Use this for initialization
 	void Start () {
@@ -31,8 +31,8 @@ public class TitleMenu : MonoBehaviour {
 
 	void PlayCredits()
 	{
-		b
-		creditTextSprite.transform.Translate(0, -moveSpeed, 0);
+		//b
+		//creditTextSprite.transform.Translate(0, -moveSpeed, 0);
 
 	}
 }

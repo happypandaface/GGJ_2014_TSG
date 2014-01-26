@@ -17,7 +17,6 @@ public class fade : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		gameObject.layer = -1;
 		transform.position = new Vector3(0, 0, -8.1f);
 		if (nextLevel != null && !nextLevel.Equals("") && Mathf.Abs (end-renderer.material.color.a) < Time.deltaTime*speed)
 			Application.LoadLevel(nextLevel);
