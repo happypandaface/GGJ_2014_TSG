@@ -18,7 +18,7 @@ public class KillsGuy : MonoBehaviour {
 		if (col.collider.CompareTag("guy") || col.collider.CompareTag("animal"))
 		{
 			if (transform.position.y > col.gameObject.transform.position.y+2)
-				Destroy(col.gameObject);
+				col.gameObject.GetComponent<Dies>().Die();
 		}
 	}
 }
