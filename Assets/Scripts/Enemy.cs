@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
 		{
 			if (col.collider.transform.position.y > renderer.bounds.max.y)
 			{
-				col.gameObject.GetComponent<Guy>().modKarma(-1);
+				//col.gameObject.GetComponent<Guy>().modKarma(-1);
 			}else
 			{
 				if (alive)
@@ -72,6 +72,7 @@ public class Enemy : MonoBehaviour {
 		}
 		if (col.rigidbody.velocity.y < 0 && col.collider.transform.position.y > renderer.bounds.max.y)
 		{
+			GameObject.FindGameObjectWithTag("guy").GetComponent<Guy>().modKarma(-1);
 			alive = false;
 			rigidbody2D.drag = 2;
 			rigidbody2D.isKinematic = false;
