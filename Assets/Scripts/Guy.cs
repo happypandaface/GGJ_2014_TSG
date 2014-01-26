@@ -46,7 +46,7 @@ public class Guy : Dies, ItemUser {
 	// Use this for initialization
 	void Start () {
 		reincarnating = true;
-		karma = -1;
+		karma = 0;//-1;
 		if (reincarnating)
 		{
 			print (karma);
