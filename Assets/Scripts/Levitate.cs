@@ -18,6 +18,8 @@ public class Levitate : MonoBehaviour
 	private bool doneRising = false;
 	private bool isLevitating = false;
 
+	public Transform fadeOut;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -25,6 +27,7 @@ public class Levitate : MonoBehaviour
 
 		risingAudSource = AddAudio(risingAudClip, false, 1);
 		levitatingAudSource = AddAudio(levitatingAudClip, true, 1);
+
 	}
 
 	// Update is called once per frame
@@ -50,6 +53,13 @@ public class Levitate : MonoBehaviour
 			}
 			else
 			{
+				if (!doneRising && !isLevitating)
+				{
+					EnlightenmentFade f = ((Transform)Instantiate (fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<EnlightenmentFade>();
+					f.start = 0;
+					f.end = 1;
+					f.speed = 0.1f;
+				}
 				isLevitating = true;
 				doneRising = true;
 				levitate += Time.deltaTime;
@@ -67,7 +77,7 @@ public class Levitate : MonoBehaviour
 		if (isLevitating || bStarted)
 		{
 
-			rigidbody2D.gravityScale = 1;
+			rigidbody2D.gravityScale = 4;
 			isLevitating = false;
 			doneRising = false;
 			bStarted = false;
