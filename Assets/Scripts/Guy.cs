@@ -268,24 +268,24 @@ public class Guy : Dies, ItemUser {
 	
 	public Vector2 getPositionLeft()
 	{
-		return new Vector2(GetComponent<SpriteRenderer>().bounds.min.x, GetComponent<SpriteRenderer>().bounds.min.y);
+		return new Vector2(transform.position.x-GetComponent<BoxCollider2D>().size.x/3f*transform.localScale.x, transform.position.y-GetComponent<BoxCollider2D>().size.y/2f*transform.localScale.y);
 	}
 	
 	public Vector2 getPositionRight()
 	{
 
-		return new Vector2(GetComponent<SpriteRenderer>().bounds.max.x, GetComponent<SpriteRenderer>().bounds.min.y);
+		return new Vector2(transform.position.x+GetComponent<BoxCollider2D>().size.x/2f*transform.localScale.x, transform.position.y-GetComponent<BoxCollider2D>().size.y/2f*transform.localScale.y);
 	}
 
 	public bool checkGrounded()
 	{
-		RaycastHit2D[] rhsRight = Physics2D.RaycastAll(getPositionRight(), -Vector2.up, .4f);
+		RaycastHit2D[] rhsRight = Physics2D.RaycastAll(getPositionRight(), -Vector2.up, .2f);
 		foreach (RaycastHit2D rh in rhsRight)
 		{
 			if (rh.collider.CompareTag("floor"))
 				return groundedCount > 0;
 		}
-		RaycastHit2D[] rhsLeft = Physics2D.RaycastAll(getPositionLeft(), -Vector2.up, .4f);
+		RaycastHit2D[] rhsLeft = Physics2D.RaycastAll(getPositionLeft(), -Vector2.up, .2f);
 		foreach (RaycastHit2D rh in rhsLeft)
 		{
 			if (rh.collider.CompareTag("floor"))
