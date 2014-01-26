@@ -73,6 +73,8 @@ public class Guy : Dies, ItemUser {
 
 	void Update ()
 	{
+		if (transform.position.y < -100)
+			Die ();
 		if (heldItem != null)
 		{
 			heldItem.transform.position = new Vector3(transform.position.x, transform.position.y+1.4f, transform.position.z);
