@@ -17,11 +17,12 @@ public class Telepuerto : MonoBehaviour {
 	{
 		if (scene != null && col.collider.CompareTag("guy"))
 		{
+			((Guy)FindObjectOfType(typeof(Guy))).Freeze();
 			fade f = ((Transform)Instantiate(fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();
 			f.nextLevel = scene;
 			f.start = 0;
 			f.end = 1;
-			f.speed = .25f;
+			f.speed = 1f;
 			//Application.LoadLevel(scene);
 		}
 	}

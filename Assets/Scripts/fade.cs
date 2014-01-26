@@ -11,7 +11,6 @@ public class fade : MonoBehaviour {
 	void Start () {
 		alpha = start;
 		renderer.material.color = new Color(1, 1, 1, alpha);
-	
 	}
 	
 	// Update is called once per frame

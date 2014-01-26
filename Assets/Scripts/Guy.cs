@@ -35,6 +35,7 @@ public class Guy : Dies, ItemUser {
 	private bool inAir;
 	private bool isGhost;
 	private bool isImageFacingLeft;
+	private bool frozen;
 
 	int groundedCount = 0;
 
@@ -73,7 +74,7 @@ public class Guy : Dies, ItemUser {
 
 	void Update ()
 	{
-		if (transform.position.y < -100)
+		if (transform.position.y < -30)
 			Die ();
 		if (heldItem != null)
 		{
@@ -82,7 +83,7 @@ public class Guy : Dies, ItemUser {
 		isWalking = Mathf.Abs(rigidbody2D.velocity.x) < 1 ? false : true;
 		if (!checkGrounded())
 		{
-			rigidbody2D.drag = 0;
+			rigidbody2D.drag = 2;
 		}else
 		{
 			rigidbody2D.drag = 10;
@@ -171,7 +172,7 @@ public class Guy : Dies, ItemUser {
 		}
 		if ((checkGrounded() || isGhost) && Input.GetKey(KeyCode.UpArrow))
 		{
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 15);
 			if (karma != -1)
 				PlaySound("jump");
 
@@ -179,7 +180,7 @@ public class Guy : Dies, ItemUser {
 		}
 		if (Input.GetKey(KeyCode.DownArrow) && isGhost)
 		{
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -14);
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -15);
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -206,6 +207,10 @@ public class Guy : Dies, ItemUser {
 				isImageFacingLeft = !isImageFacingLeft;
 				transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1);
 			}
+		}
+		if (frozen == true)
+		{
+			rigidbody2D.velocity = Vector2.zero;
 		}
 	}
 
@@ -333,5 +338,10 @@ public class Guy : Dies, ItemUser {
 		f.end = 1;
 		f.nextLevel = "FlowerScene";
 		base.Die ();
+	}
+
+	public void Freeze()
+	{
+		frozen = true;
 	}
 }
