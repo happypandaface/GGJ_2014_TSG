@@ -40,7 +40,7 @@ public class Guy : Dies, ItemUser {
 	private bool isGod;
 	private bool isImageFacingLeft;
 	private bool frozen;
-	private float jumpForce = 16;
+	private float jumpForce = 17;
 
 	int groundedCount = 0;
 

@@ -6,6 +6,10 @@ public class fade : MonoBehaviour {
 	public float end;
 	public float speed;
 	public string nextLevel;
+	public string enlighteningText;
+	public Font fontOfTheBhuddah;
+	private float fontTime = 3;
+	private float currFontTime = 3;
 	private float alpha = 0;
 	private Color color = Color.white;
 	private float textAlpha = 0;
