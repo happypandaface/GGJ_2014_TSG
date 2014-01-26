@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Bunny : Dies {
 	public Transform guy;
+	public bool isLeader;
 	private float jumpCount;
 
 	public AudioClip throwAudClip;
@@ -46,5 +47,16 @@ public class Bunny : Dies {
 		newAudio.volume = vol;
 		
 		return newAudio;
+	}
+
+	public void OnCollisionEnter2D(Collision2D col)
+	{
+		if (col.collider.GetComponent<Bunny>() != null)
+		{
+			GameObject.FindGameObjectWithTag("guy").GetComponent<Guy>().modKarma(1);
+			Bunny b = col.collider.GetComponent<Bunny>();
+			if (isLeader)
+				Destroy (b.gameObject);
+		}
 	}
 }

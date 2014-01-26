@@ -12,7 +12,8 @@ public class KillsGuy : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 
@@ -24,7 +25,7 @@ public class KillsGuy : MonoBehaviour {
 			{
 				if (col.collider.CompareTag("guy"))
 				{
-					col.collider.GetComponent<Guy>().modKarma(1);
+					//col.collider.GetComponent<Guy>().modKarma(1);
 				}
 				deathSource.Play ();
 				col.gameObject.GetComponent<Dies>().Die();
