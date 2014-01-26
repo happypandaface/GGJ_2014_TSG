@@ -13,7 +13,7 @@ public class fade : MonoBehaviour {
 	private float alpha = 0;
 	private Color color = Color.white;
 	private float textAlpha = 0;
-	private float textCount = 5;
+	private float textCount = 7;
 	// Use this for initialization
 	void Start () {
 		string s = ((GameObject)GameObject.FindGameObjectWithTag("guy")).GetComponent<Guy>().getText(nextLevel);
@@ -25,7 +25,7 @@ public class fade : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.anyKeyDown)
 			textCount = 0;
 		transform.position = new Vector3(0, 0, -8.1f);
 		if (nextLevel != null && !nextLevel.Equals("") && Mathf.Abs (end-renderer.material.color.a) < Time.deltaTime*speed)

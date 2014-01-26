@@ -26,7 +26,7 @@ public class Guy : Dies, ItemUser {
 	
 	static int stuff = 0;
 	static int karma = 0;
-	static bool reincarnating;
+	private static bool reincarnating;
 	static int currentDeathQuote = 0;
 
 	//Footstep stuff
@@ -37,8 +37,8 @@ public class Guy : Dies, ItemUser {
 	private float footStepTimer;
 	private bool isWalking;
 	private bool inAir;
-	private bool isGhost;
-	private bool isGod;
+	private static bool isGhost;
+	private static bool isGod;
 	private bool isImageFacingLeft;
 	private bool frozen;
 	private float jumpForce = 17;
@@ -79,23 +79,29 @@ public class Guy : Dies, ItemUser {
 			print (karma);
 			if (karma < 0)
 			{
-				GetComponent<SpriteRenderer>().sprite = hungryHungryGhost;
-				jumpForce = 7;
 				karma = -1;
 				isGhost = true;
-				rigidbody2D.isKinematic = true;
-				rigidbody2D.drag = 4;
 			}else
 			if (karma > 0)
 			{
-				GetComponent<SpriteRenderer>().sprite = fightingFightingGod;
-				jumpForce = 30;
 				karma = 1;
 				isGod = true;
 				//rigidbody2D.isKinematic = true;
 				//rigidbody2D.drag = 4;
 			}
 		}
+		if (isGhost)
+		{
+			GetComponent<SpriteRenderer>().sprite = hungryHungryGhost;
+			jumpForce = 7;
+			rigidbody2D.isKinematic = true;
+			rigidbody2D.drag = 4;
+		}else if (isGod)
+		{
+			GetComponent<SpriteRenderer>().sprite = fightingFightingGod;
+			jumpForce = 30;
+		}
+		reincarnating = false;
 		itemsDict = new Dictionary<string, UsedItem>();
 
 		//Get levitate script for reference
@@ -398,15 +404,15 @@ public class Guy : Dies, ItemUser {
 		int num = -1;
 		for (int i = 0; i < 4; ++i)
 		{
-			if (roomLink[i] == Application.loadedLevel)
+			if (roomLink[i] == Application.loadedLevelName)
 			{
 				num = i;
 			}
 		}
-		if (nextLevel.Equals("FlowerLevel"))
+		print (nextLevel);
+		if (nextLevel == "FlowerScene")
 		{
-			return deathStuff[currentDeathQuote];
-			currentDeathQuote++;
+			return deathStuff[++currentDeathQuote];
 		}
 		if (isGhost)
 			return ghostStuff[num];
