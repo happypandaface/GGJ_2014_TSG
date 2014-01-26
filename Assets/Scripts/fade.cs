@@ -13,7 +13,7 @@ public class fade : MonoBehaviour {
 	private float alpha = 0;
 	private Color color = Color.white;
 	private float textAlpha = 0;
-	private float textCount = 3;
+	private float textCount = 7;
 	// Use this for initialization
 	void Start () {
 		string s = ((GameObject)GameObject.FindGameObjectWithTag("guy")).GetComponent<Guy>().getText(nextLevel);
@@ -25,6 +25,8 @@ public class fade : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.anyKeyDown)
+			textCount = 0;
 		transform.position = new Vector3(0, 0, -8.1f);
 		if (nextLevel != null && !nextLevel.Equals("") && Mathf.Abs (end-renderer.material.color.a) < Time.deltaTime*speed)
 		{
@@ -46,7 +48,7 @@ public class fade : MonoBehaviour {
 		GUIStyle centeredStyle = GUI.skin.GetStyle("Label");
 		GUI.color = new Color(1, 1, 1, textAlpha);
 		centeredStyle.font = fontOfTheBhuddah;
-		centeredStyle.fontSize = 11;
+		centeredStyle.fontSize = 17;
 		textAlpha += Time.deltaTime;
 		centeredStyle.alignment = TextAnchor.UpperCenter;
 		GUI.Label (new Rect (Screen.width/2-100, Screen.height/2-75, 200, 150), enlighteningText, centeredStyle);

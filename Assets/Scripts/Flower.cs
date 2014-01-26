@@ -58,7 +58,7 @@ public class Flower : MonoBehaviour
 				transform.GetComponent<SpriteRenderer>().enabled = false;
 
 				GameObject particle = Instantiate(pickupParticle, new Vector3(transform.position.x, -transform.position.y, -6),  Quaternion.Euler(0,0,0)) as GameObject;
-				print (particle);
+				//print (particle);
 				//delay so sound will play
 				Destroy(gameObject, 2);
 			}
