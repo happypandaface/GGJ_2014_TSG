@@ -3,6 +3,9 @@ using System.Collections;
 
 public class TitleMenu : MonoBehaviour {
 
+	public GameObject creditTextSprite;
+
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -14,8 +17,18 @@ public class TitleMenu : MonoBehaviour {
 
 	void OnGUI () {
 		//Play button
-		if (GUI.Button (new Rect (Screen.width/2-75,Screen.height/2-50,150,100), "Play")) {
+		if (GUI.Button (new Rect (Screen.width/2-75,Screen.height/2-120,100,50), "Play")) {
 			Application.LoadLevel("FlowerScene");
 		}
+
+		//Creditz button
+		if (GUI.Button (new Rect (Screen.width/2-75,Screen.height/2-50,100,50), "Credits")) {
+			PlayCredits();
+		}
+	}
+
+	void PlayCredits()
+	{
+		
 	}
 }
