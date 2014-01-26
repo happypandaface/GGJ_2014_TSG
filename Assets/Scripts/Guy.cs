@@ -11,6 +11,7 @@ public class Guy : Dies, ItemUser {
 	public List<AudioClip> audioClips = new List<AudioClip>();
 	public UsedItem weapon;
 	public Transform fadeOut;
+	public Sprite hungryHungryGhost;
 
 	private Levitate levitationScript;
 
@@ -24,6 +25,7 @@ public class Guy : Dies, ItemUser {
 	
 	static int stuff = 0;
 	static int karma = 0;
+	static bool reincarnating;
 
 	//Footstep stuff
 	public AudioClip footStepAudClip;
@@ -34,20 +36,38 @@ public class Guy : Dies, ItemUser {
 	private bool isWalking;
 	private bool inAir;
 	private bool isGhost;
+	private bool isGod;
 	private bool isImageFacingLeft;
 	private bool frozen;
+	private float jumpForce = 15;
 
 	int groundedCount = 0;
 
 	// Use this for initialization
 	void Start () {
-		print (karma);
-		if (karma < 0)
+		reincarnating = true;
+		karma = -1;
+		if (reincarnating)
 		{
-			karma = -1;
-			isGhost = true;
-			rigidbody2D.isKinematic = true;
-			rigidbody2D.drag = 4;
+			print (karma);
+			if (karma < 0)
+			{
+				GetComponent<SpriteRenderer>().sprite = hungryHungryGhost;
+				jumpForce = 7;
+				karma = -1;
+				isGhost = true;
+				rigidbody2D.isKinematic = true;
+				rigidbody2D.drag = 4;
+			}else
+			if (karma > 0)
+			{
+				GetComponent<SpriteRenderer>().sprite = hungryHungryGhost;
+				jumpForce = 7;
+				karma = -1;
+				isGod = true;
+				rigidbody2D.isKinematic = true;
+				rigidbody2D.drag = 4;
+			}
 		}
 		itemsDict = new Dictionary<string, UsedItem>();
 
@@ -172,7 +192,7 @@ public class Guy : Dies, ItemUser {
 		}
 		if ((checkGrounded() || isGhost) && Input.GetKey(KeyCode.UpArrow))
 		{
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 15);
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
 			if (karma != -1)
 				PlaySound("jump");
 
@@ -180,7 +200,7 @@ public class Guy : Dies, ItemUser {
 		}
 		if (Input.GetKey(KeyCode.DownArrow) && isGhost)
 		{
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -15);
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -jumpForce);
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -211,6 +231,10 @@ public class Guy : Dies, ItemUser {
 		if (frozen == true)
 		{
 			rigidbody2D.velocity = Vector2.zero;
+		}
+		if (isGhost)
+		{
+			rigidbody2D.velocity *= .9f;
 		}
 	}
 
@@ -333,6 +357,7 @@ public class Guy : Dies, ItemUser {
 
 	public override void Die()
 	{
+		reincarnating = true;
 		fade f = ((Transform)Instantiate (fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();
 		f.start = 0;
 		f.end = 1;
