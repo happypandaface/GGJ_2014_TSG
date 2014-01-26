@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Guy : MonoBehaviour, ItemUser {
+public class Guy : Dies, ItemUser {
 	public bool isGrounded;	
 	public bool hasFlower;
 	public List<string> itemKeys = new List<string>();
@@ -10,6 +10,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	public List<string> audioKeys = new List<string>();
 	public List<AudioClip> audioClips = new List<AudioClip>();
 	public UsedItem weapon;
+	public Transform fadeOut;
 
 	private Levitate levitationScript;
 
@@ -22,6 +23,7 @@ public class Guy : MonoBehaviour, ItemUser {
 	private bool facingLeft;
 	
 	static int stuff = 0;
+	static int karma = 0;
 
 	//Footstep stuff
 	public AudioClip footStepAudClip;
@@ -31,15 +33,21 @@ public class Guy : MonoBehaviour, ItemUser {
 	private float footStepTimer;
 	private bool isWalking;
 	private bool inAir;
-
+	private bool isGhost;
 	private bool isImageFacingLeft;
 
 	int groundedCount = 0;
 
 	// Use this for initialization
 	void Start () {
-		stuff++;
-		print(stuff);
+		print (karma);
+		if (karma < 0)
+		{
+			karma = -1;
+			isGhost = true;
+			rigidbody2D.isKinematic = true;
+			rigidbody2D.drag = 4;
+		}
 		itemsDict = new Dictionary<string, UsedItem>();
 
 		//Get levitate script for reference
@@ -81,8 +89,12 @@ public class Guy : MonoBehaviour, ItemUser {
 		{
 			facingLeft = false;
 
+
 			rigidbody2D.AddForce(new Vector2(70, 0));
 			if (rigidbody2D.velocity.x > maxSpeed)
+				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
+
+			if (isGhost)
 				rigidbody2D.velocity = new Vector2(maxSpeed, rigidbody2D.velocity.y);
 
 			if (checkGrounded())
@@ -104,6 +116,9 @@ public class Guy : MonoBehaviour, ItemUser {
 			facingLeft = true;
 			rigidbody2D.AddForce(new Vector2(-70, 0));
 			if (rigidbody2D.velocity.x < -maxSpeed)
+				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
+			
+			if (isGhost)
 				rigidbody2D.velocity = new Vector2(-maxSpeed, rigidbody2D.velocity.y);
 
 			if (checkGrounded())
@@ -152,12 +167,17 @@ public class Guy : MonoBehaviour, ItemUser {
 				}
 			}
 		}
-		if (checkGrounded() && Input.GetKey(KeyCode.UpArrow))
+		if ((checkGrounded() || isGhost) && Input.GetKey(KeyCode.UpArrow))
 		{
 			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 14);
-			PlaySound("jump");
+			if (karma != -1)
+				PlaySound("jump");
 
 			levitationScript.checkLevatation();
+		}
+		if (Input.GetKey(KeyCode.DownArrow) && isGhost)
+		{
+			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, -14);
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -297,5 +317,19 @@ public class Guy : MonoBehaviour, ItemUser {
 	{
 		AudioSource audioToPlay = audioDict[s];
 		audioToPlay.Play ();
+	}
+
+	public void modKarma(int i)
+	{
+		karma += i;
+	}
+
+	public override void Die()
+	{
+		fade f = ((Transform)Instantiate (fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();
+		f.start = 0;
+		f.end = 1;
+		f.nextLevel = "FlowerScene";
+		base.Die ();
 	}
 }

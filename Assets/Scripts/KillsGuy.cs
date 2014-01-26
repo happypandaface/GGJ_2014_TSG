@@ -2,10 +2,13 @@
 using System.Collections;
 
 public class KillsGuy : MonoBehaviour {
-
+	public AudioClip deathSound;
 	// Use this for initialization
+	public AudioSource deathSource;
 	void Start () {
-	
+		deathSource = gameObject.AddComponent<AudioSource>();
+		deathSource.clip = deathSound;
+		deathSource.loop = false;
 	}
 	
 	// Update is called once per frame
@@ -17,8 +20,11 @@ public class KillsGuy : MonoBehaviour {
 	{
 		if (col.collider.CompareTag("guy") || col.collider.CompareTag("animal"))
 		{
-			if (transform.position.y > col.gameObject.transform.position.y+2)
+			if (transform.position.y > col.gameObject.transform.position.y)
+			{
+				deathSource.Play ();
 				col.gameObject.GetComponent<Dies>().Die();
+			}
 		}
 	}
 }

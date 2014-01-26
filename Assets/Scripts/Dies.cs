@@ -17,7 +17,7 @@ public class Dies : MonoBehaviour {
 	
 	}
 
-	public void Die()
+	public virtual void Die()
 	{
 		for (int i = 0; i < 10; ++i)
 		{
