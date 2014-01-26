@@ -4,11 +4,13 @@ using System.Collections;
 public class Water : MonoBehaviour
 {
 	public float moveSpeed = 0.1f;
+	public Transform fadeOut;
 
 	private float sinStuff = 0;
 	private float waterLevel = 0;
-
+	private float breath = 0;
 	private float startY;
+	private bool fading = false;
 
 	// Use this for initialization
 	void Start ()
@@ -30,7 +32,31 @@ public class Water : MonoBehaviour
 	{
 		if (col.tag == "guy")
 		{
-			print (col.transform.position.y - transform.position.y);
+			float waterLevel = transform.position.y+GetComponent<BoxCollider2D>().size.y/2f*transform.localScale.y;
+			float guyBottomPos = col.GetComponent<Guy>().getPositionLeft().y;
+			float guyHeight = col.GetComponent<Guy>().getSize().y;
+			if (waterLevel > guyBottomPos+guyHeight)
+			{
+				breath -= Time.deltaTime;
+				if (breath <= 0)
+				{
+					if (!fading)
+					{
+						col.GetComponent<Guy>().Freeze();
+						
+						fade f = ((Transform)Instantiate(fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();
+						f.nextLevel = "FlowerScene";
+						f.start = 0;
+						f.end = 1;
+						f.speed = .25f;
+						fading = true;
+					}
+
+					//Application.LoadLevel("FlowerScene");
+				}
+			}else
+				breath = 14;
+			//print (col.transform.position.y - transform.position.y);
 		}
 
 	}

@@ -11,7 +11,8 @@ public class FatMan : MonoBehaviour {
 	private bool waving;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		lastSpr = GetComponent<SpriteRenderer>().sprite;
 	}
 	
