@@ -18,7 +18,10 @@ public class Telepuerto : MonoBehaviour {
 		if (scene != null && col.collider.CompareTag("guy"))
 		{
 			((Guy)FindObjectOfType(typeof(Guy))).Freeze();
+			print (fadeOut);
+
 			fade f = ((Transform)Instantiate(fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();
+			print (f);
 			f.nextLevel = scene;
 			f.start = 0;
 			f.end = 1;
