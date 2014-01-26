@@ -27,6 +27,7 @@ public class Guy : Dies, ItemUser {
 	static int stuff = 0;
 	static int karma = 0;
 	static bool reincarnating;
+	static int currentDeathQuote = 0;
 
 	//Footstep stuff
 	public AudioClip footStepAudClip;
@@ -41,6 +42,31 @@ public class Guy : Dies, ItemUser {
 	private bool isImageFacingLeft;
 	private bool frozen;
 	private float jumpForce = 17;
+
+	private string[] deathStuff = {
+		"We travel the six worlds, weary seekers on the path. What lies ahead, lies behind.",
+		"The whole body is free of dust, who could believe in a means to brush it free.  Why go wandering on roads in dusty realms only to forsake the seat in your very home.",
+		"The great teacher holds up a flower. In stillness you smile and a 1000 years of suffering fall away."
+	};
+	private string[] humanStuff = {
+		"Move Forth with an Open hand, nothing you hold will set you free.",
+		"Only that which we destroy can hope to harm us.",
+		"Saving all sentient beings, we endlessly circle the six realms.",
+		"When you fear nothing, not even death can touch you."
+	};
+	private string[] godStuff = {
+		"With the world's power in my hand, I want for nothing.",
+		"The level ground is filled with bodies, yet on the slope no one remains.",
+		"Puny beings bow before me or suffer my mighty wrath.",
+		"I hold dominion over all. Everything shrinks before me. Except the specter of death."
+	};
+	private string[] ghostStuff = {
+		"I am lost in the world untethered. What I see means nothing but empty hands holds everything.",
+		"I thirst for thirst, I long for hunger, the only thing worse than death, is this never ending life.",
+		"Entering empty rooms hearing only the echoes of my long lost steps. I can trust nothing but this very breath.",
+		"Stepping forth into an endless night, the day comes forth to fill these weary eyes."
+	};
+	private string[] roomLink = {"FlowerScene", "puzzle1", "rabbitLevel", "FatmanCaveJ"};
 
 	int groundedCount = 0;
 
@@ -365,6 +391,29 @@ public class Guy : Dies, ItemUser {
 	public void modKarma(int i)
 	{
 		karma += i;
+	}
+
+	public string getText(string nextLevel)
+	{
+		int num = -1;
+		for (int i = 0; i < 4; ++i)
+		{
+			if (roomLink[i] == Application.loadedLevelName)
+			{
+				num = i;
+			}
+		}
+		if (num == -1)
+		{
+			return deathStuff[currentDeathQuote];
+			currentDeathQuote++;
+		}
+		if (isGhost)
+			return ghostStuff[num];
+		else if (isGod)
+			return godStuff[num];
+		else
+			return humanStuff[num];
 	}
 
 	public override void Die()

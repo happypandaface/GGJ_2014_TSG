@@ -4,6 +4,7 @@ using System.Collections;
 public class Telepuerto : MonoBehaviour {
 	public string scene;
 	public Transform fadeOut;
+	public bool doorOfReincarnation;
 
 	void Start () {
 	
@@ -18,6 +19,8 @@ public class Telepuerto : MonoBehaviour {
 		if (scene != null && col.collider.CompareTag("guy"))
 		{
 			((Guy)FindObjectOfType(typeof(Guy))).Freeze();
+			if (doorOfReincarnation)
+				((Guy)FindObjectOfType(typeof(Guy))).reBirth();
 			print (fadeOut);
 
 			fade f = ((Transform)Instantiate(fadeOut, Vector3.zero, Quaternion.identity)).GetComponent<fade>();

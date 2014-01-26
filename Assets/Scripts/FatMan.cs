@@ -38,6 +38,7 @@ public class FatMan : MonoBehaviour {
 	{
 		if (col.collider.CompareTag("floor"))
 		{
+			((GameObject)GameObject.FindGameObjectWithTag("guy")).GetComponent<Guy>().modKarma(-1);
 			(dListener.GetComponent(typeof(DeathListener)) as DeathListener).thingKilled(this.gameObject);
 			Instantiate (fatmanDead, transform.position+new Vector3(-1, -1.3f, 0), Quaternion.Euler(0, 0, 20));
 			Destroy (this.gameObject);
