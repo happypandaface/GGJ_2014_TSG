@@ -69,7 +69,12 @@ public class Enemy : MonoBehaviour {
 					col.gameObject.GetComponent<Dies>().Die();
 				}
 			}
+		}
+		if (col.rigidbody.velocity.y < 0 && col.collider.transform.position.y > renderer.bounds.max.y)
+		{
 			alive = false;
+			rigidbody2D.drag = 2;
+			rigidbody2D.isKinematic = false;
 			rigidbody2D.isKinematic = false;
 		}
 	}
