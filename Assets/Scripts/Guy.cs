@@ -244,7 +244,8 @@ public class Guy : Dies, ItemUser {
 			if (karma != -1)
 				PlaySound("jump");
 
-			levitationScript.checkLevatation();
+			if (levitationScript != null)
+				levitationScript.checkLevatation();
 		}
 		if (Input.GetKey(KeyCode.DownArrow) && isGhost)
 		{
@@ -286,13 +287,7 @@ public class Guy : Dies, ItemUser {
 		if (isGhost)
 		{
 			rigidbody2D.velocity *= .9f;
-			if (transform.position.x < -10 || 
-			    transform.position.x > 10 || 
-			    transform.position.y > 10 || 
-			    transform.position.y < -10)
-			{
-				Die ();
-			}
+
 		}
 	}
 
