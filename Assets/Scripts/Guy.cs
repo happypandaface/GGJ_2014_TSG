@@ -287,7 +287,21 @@ public class Guy : Dies, ItemUser {
 		if (isGhost)
 		{
 			rigidbody2D.velocity *= .9f;
+			/*
+			float vertExtent = Camera.main.camera.orthographicSize;  
+			float horzExtent = vertExtent * Screen.width / Screen.height;
+			
+			// Calculations assume map is position at the origin
+			float minX = Camera.main.transform.position.x - horzExtent/2f;
+			float maxX = Camera.main.transform.position.x + horzExtent/2f;
+			float minY = Camera.main.transform.position.y - vertExtent/2f;
+			float maxY = Camera.main.transform.position.y + vertExtent/2f;
 
+			var v3 = transform.position;
+			v3.x = Mathf.Clamp(v3.x, minX, maxX);
+			v3.y = Mathf.Clamp(v3.y, minY, maxY);
+			transform.position = v3;
+			*/
 		}
 	}
 
