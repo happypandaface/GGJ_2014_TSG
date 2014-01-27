@@ -286,6 +286,13 @@ public class Guy : Dies, ItemUser {
 		if (isGhost)
 		{
 			rigidbody2D.velocity *= .9f;
+			if (transform.position.x < -10 || 
+			    transform.position.x > 10 || 
+			    transform.position.y > 10 || 
+			    transform.position.y < -10)
+			{
+				Die ();
+			}
 		}
 	}
 

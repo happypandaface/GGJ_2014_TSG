@@ -5,6 +5,7 @@ public class Bunny : Dies {
 	public Transform guy;
 	public bool isLeader;
 	private float jumpCount;
+	private bool leaving;
 
 	public AudioClip throwAudClip;
 	private AudioSource throwAudSource; 
@@ -16,6 +17,10 @@ public class Bunny : Dies {
 	
 	// Update is called once per frame
 	void Update () {
+		if (leaving)
+		{
+			rigidbody2D.velocity = new Vector2(2, 0);
+		}
 		if (!GetComponent<HeldItem>().isHeld() && GetComponent<Box>().CheckGrounded())
 		{
 			jumpCount += Time.deltaTime;
@@ -56,7 +61,11 @@ public class Bunny : Dies {
 			GameObject.FindGameObjectWithTag("guy").GetComponent<Guy>().modKarma(1);
 			Bunny b = col.collider.GetComponent<Bunny>();
 			if (isLeader)
+			{
+				GetComponent<HeldItem>().canPickUp = false;
+				leaving = true;
 				Destroy (b.gameObject);
+			}
 		}
 	}
 }
