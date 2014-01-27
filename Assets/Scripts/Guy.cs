@@ -48,6 +48,10 @@ public class Guy : Dies, ItemUser {
 	public bool isEnlightened;
 	public bool messedWithFlower;
 
+	private string humanDeath = "A Human Birth is rare, don’t waste this life wandering on roads in dusty lands only to forsake the seat within your very home.";
+	private string ghostDeath = "The Wise One Spoke Saying: Cruelty harms both, the one who is hurt and the one who hurts. Unskillful deeds leads to rebirth into unhappy realms.";
+	private string godDeath = "The Wise One Spoke Saying: A life spent seeking only merit leads to rebirth into the realm of fighting gods. Great and mighty, but drunk with power they surely cannot find the path to liberation.";
+
 	private string[] deathStuff = {
 		"We travel the six worlds, weary seekers on the path. What lies ahead, lies behind.",
 		"The whole body is free of dust, who could believe in a means to brush it free.  Why go wandering on roads in dusty realms only to forsake the seat in your very home.",
@@ -438,10 +442,19 @@ public class Guy : Dies, ItemUser {
 			}
 		}
 		print (nextLevel);
-		if (nextLevel == "FlowerScene")
+		if (nextLevel == "puzzle1")
 		{
-			return deathStuff[++currentDeathQuote];
+			if (isGhost)
+				return ghostDeath;
+			else if (isGod)
+				return godDeath;
+			else
+				return humanDeath;
 		}
+		//if (nextLevel == "FlowerScene")
+		//{
+		//	return deathStuff[++currentDeathQuote];
+		//}
 		if (isGhost)
 			return ghostStuff[num];
 		else if (isGod)
