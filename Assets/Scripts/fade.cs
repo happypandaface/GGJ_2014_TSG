@@ -48,9 +48,9 @@ public class fade : MonoBehaviour {
 		GUIStyle centeredStyle = GUI.skin.GetStyle("Label");
 		GUI.color = new Color(1, 1, 1, textAlpha);
 		centeredStyle.font = fontOfTheBhuddah;
-		centeredStyle.fontSize = 17;
+		centeredStyle.fontSize = 15;
 		textAlpha += Time.deltaTime;
 		centeredStyle.alignment = TextAnchor.UpperCenter;
-		GUI.Label (new Rect (Screen.width/2-100, Screen.height/2-75, 200, 150), enlighteningText, centeredStyle);
+		GUI.Label (new Rect (Screen.width/2-150, Screen.height/2-125, 300, 250), enlighteningText, centeredStyle);
 	}
 }
